@@ -1,0 +1,6 @@
+# Ignore .ev file
+.ev
+
+# Ignore auto generated folders
+__pycache__/
+migrations/
