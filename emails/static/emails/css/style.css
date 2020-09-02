@@ -1,0 +1,17 @@
+html {
+  font-family: sans-serif;
+  line-height: 1.15;
+}
+
+p{
+  color: #5b6471;
+  font-weight: 400; 
+}
+
+h1,h2,h3,h4,h5{
+  color:#4f5863;
+}
+
+.menu-title{
+  color:white;
+}
