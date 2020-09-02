@@ -1,0 +1,46 @@
+{% extends 'registration_base.html' %}
+
+{% block content %}
+
+<div class="container">
+  <div class="row">
+  	<div class="col-12">
+      <h1>Login</h1>
+    </div>
+    <div class="col-12">
+      {% if form.errors %}
+		    <p>Your username and password didn't match. Please try again.</p>
+		  {% endif %}
+    </div>
+    <div class="col-12">
+      {% if next %}
+        {% if user.is_authenticated %}
+          <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
+        {% else %}
+          <p>Please login to see this page.</p>
+        {% endif %}
+      {% endif %}
+    </div>
+    <div class="col-6 col-sm-12 p-4 bg-info text-white">
+      <form method="post" action="{% url 'login' %}">
+				{% csrf_token %}
+				<table>
+				  <tr>
+				    <td><strong>{{ form.username.label_tag }}</strong></td>
+				    <td>{{ form.username }}</td>
+				  </tr>
+				  <tr>
+				    <td><strong>{{ form.password.label_tag }}</strong></td>
+				    <td>{{ form.password }}</td>
+				  </tr>
+				</table>
+				<input class="m-3" type="submit" value="Login" />
+				<input type="hidden" name="next" value="{{ next }}" />
+			</form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock %}
