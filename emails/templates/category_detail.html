@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>CATEGORY NAME: {{ category }} 
+  {% if user.update_category %}
+    - 
+	<span>
+	  <small>
+	    <a href="{% url 'category_update' category.id %}">Update this category</a>
+	  </small>
+	</span>
+	{% endif %}
+</h3>
+
+<hr>
+<h4>EMAIL TEMPLATES IN THIS CATEGORY:</h4>
+{% for email in category.email_set.all %}
+  <p><a href="{{ email.get_absolute_url }}">{{ email }}</a></p>
+{% endfor %}
+
+{% endblock %}
