@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>All Email Templates</h3>
+<div class="container">
+  {% for email in email_list %}
+	<p><a href="{{ email.get_absolute_url }}">{{ email }}</a>
+      <span class="badge badge-primary p-2 m-1">
+        <a class="text-white" href="{{ email.category.get_absolute_url }}">CATEGORY: {{ email.category }}</a>
+      </span>
+	</p>
+  {% endfor %}
+</div>
+
+{% endblock %} 

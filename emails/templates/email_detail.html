@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>{{ email }}</h2>
+<div class="container">
+  <div class="row">
+    <div class="col-12 pb-3">
+      <span class="badge badge-primary p-2">
+      	<a class="text-white" href="{{ email.category.get_absolute_url }}">
+      	  CATEGORY: {{ email.category }}
+      	</a>
+      </span>
+    </div>
+    <div class="col-12 pb-3">
+      {% if perms.emails.change_email %}
+		<p>
+		  <a href="{% url 'email_update' email.id %}">
+		    Edit this email / Add a translation
+		  </a>
+		</p>
+	  {% endif %}
+    </div>
+  </div>
+
+  <hr>
+
+  <div class="row">
+  	{% for translation in email.emailtranslation_set.all %}
+  	<div class="col-md-6 mb-4">
+  		<div class="border border-secondary shadow-sm p-4 h-100">
+	      <p>LANGUAGE: {{ translation.get_language_display }}</p>
+			   <hr>
+			   {{ translation.content|linebreaks }}
+	    </div>
+  	</div>
+    {% endfor %}
+  </div>
+
+</div>
+
+{% endblock %}
