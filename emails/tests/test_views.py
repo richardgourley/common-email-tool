@@ -1,5 +1,5 @@
 from django.test import TestCase, Client
-from emails.models import Email, Category
+from emails.models import Email, Category, EmailTranslation
 from django.urls import reverse
 from django.contrib.auth.models import User, Permission
 
@@ -82,4 +82,17 @@ class EmailDetailViewTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTrue("Edit this email / Add a translation" in str(response.content))
-        
+
+    def test_correct_template_used(self):
+        login = self.client.login(username='test_user3', password='2y!tyY!!*i')
+        email1 = Email.objects.get(id=1)
+        response = self.client.get(reverse('email_detail', args=(email1.id,)))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'email_detail.html')
+
+
+
+
+
+
+
