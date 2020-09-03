@@ -73,7 +73,7 @@ class EmailDetailViewTests(TestCase):
         response = self.client.get(reverse('email_detail', args=(email1.id,)))
 
         self.assertEqual(response.status_code, 200)
-        self.assertFalse('Edit this email/ Add a translation' in str(response.content))
+        self.assertFalse('Edit this email / Add a translation' in str(response.content))
 
     def test_user3_tests(self):
         login = self.client.login(username='test_user3', password='2y!tyY!!*i')
@@ -89,10 +89,3 @@ class EmailDetailViewTests(TestCase):
         response = self.client.get(reverse('email_detail', args=(email1.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'email_detail.html')
-
-
-
-
-
-
-
