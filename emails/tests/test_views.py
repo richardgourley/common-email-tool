@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from emails.models import Email, Category
 from django.urls import reverse
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 
 class IndexTests(TestCase):
     @classmethod
@@ -33,3 +33,4 @@ class IndexTests(TestCase):
         response = self.client.get(reverse('index'))
         self.assertTrue('num_emails' in response.context)
         self.assertTrue('num_emailtranslations' in response.context)
+
