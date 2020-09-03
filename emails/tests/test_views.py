@@ -89,3 +89,24 @@ class EmailDetailViewTests(TestCase):
         response = self.client.get(reverse('email_detail', args=(email1.id,)))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'email_detail.html')
+
+class EmailListViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        category1 = Category.objects.create(name="Company Introductions")
+        email1 = Email.objects.create(name_eng="Welcome", name_esp="Bienvenido", category=category1)
+        EmailTranslation.objects.create(
+            email=email1,
+            language='ES',
+            content = 'Bienvenido'
+        )
+
+    def test_not_logged_in(self):
+        response = self.client.get(reverse('all_emails'))
+        self.assertRedirects(response, '/accounts/login/?next=/emails/all/')
+
+    def test_logged_in(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('all_emails'))
+        self.assertEqual(response.status_code, 200)
