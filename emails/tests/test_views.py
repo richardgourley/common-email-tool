@@ -110,3 +110,8 @@ class EmailListViewTests(TestCase):
         login = self.client.login(username='test_user1', password='X$G123**3!')
         response = self.client.get(reverse('all_emails'))
         self.assertEqual(response.status_code, 200)
+
+    def test_email_appears_in_list(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('all_emails'))
+        self.assertTrue("Welcome" in str(response.content))
