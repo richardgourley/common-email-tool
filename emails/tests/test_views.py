@@ -34,3 +34,20 @@ class IndexTests(TestCase):
         self.assertTrue('num_emails' in response.context)
         self.assertTrue('num_emailtranslations' in response.context)
 
+class EmailDetailViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        test_user2 = User.objects.create_user(username='test_user2', password='iO**pgf!!2')
+        test_user3 = User.objects.create_user(username='test_user2', password='2y!tyY!!*i')
+        test_user1.save()
+        test_user2.save()
+        test_user3.save()
+
+        perm_can_view_email = Permission.objects.get(name="Can view email")
+        test_user2.user_permissions.add(perm_can_view_email)
+        test_user2.save()
+
+        perm_can_change_email = Permission.objects.get(name="Can change email")
+        test_user3.user_permissions.add(perm_can_view_email)
+        test_user3.user_permissions.add(perm_can_change_email)
