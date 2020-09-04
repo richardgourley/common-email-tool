@@ -168,3 +168,63 @@ class EmailCreateViewTests(TestCase):
         login = self.client.login(username='test_user1', password='X$G123**3!')
         response = self.client.get(reverse('email_create'))
         self.assertTemplateUsed(response, 'emails/email_create.html')
+
+class EmailUpdateViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        category1 = Category.objects.create(name="Company Introductions")
+        email1 = Email.objects.create(name_eng="Welcome", name_esp="Bienvenido", category=category1)
+        EmailTranslation.objects.create(
+            email=email1,
+            language='ES',
+            content = 'Bienvenido'
+        )
+        EmailTranslation.objects.create(
+            email=email1,
+            language='EN',
+            content = 'Welcome'
+        )
+
+        test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        test_user2 = User.objects.create_user(username='test_user2', password='Yui*!v4G6!')
+        test_user1.save()
+        test_user2.save()
+
+        perm_can_change_email = Permission.objects.get(name="Can change email")
+        test_user1.user_permissions.add(perm_can_change_email)
+        test_user1.save()
+
+    def test_user2_cant_view_update_email(self):
+        login = self.client.login(username='test_user2', password='Yui*!v4G6!')
+        email1 = Email.objects.get(id=1)
+        response = self.client.get(reverse('email_update', args=(email1.id,)))
+        self.assertEqual(response.status_code, 403)
+
+    def test_user1_can_view_update_email(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        email1 = Email.objects.get(id=1)
+        response = self.client.get(reverse('email_update', args=(email1.id,)))
+        self.assertEqual(response.status_code, 200)
+
+    '''
+    Formset length should be 5....
+    2 emailtranslations related to this email + 3 blank ones for adding email translations
+    '''
+    def test_formset_length_is_5(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        email1 = Email.objects.get(id=1)
+        response = self.client.get(reverse('email_update', args=(email1.id,)))
+        self.assertEqual(len(response.context['formset']), 5)
+
+    def test_email_names_in_html(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        email1 = Email.objects.get(id=1)
+        response = self.client.get(reverse('email_update', args=(email1.id,)))
+        self.assertTrue("Welcome" in str(response.content))
+        self.assertTrue("Bienvenido" in str(response.content))
+
+    def test_correct_template_used(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('email_update', args=(1,)))
+        self.assertTemplateUsed(response, 'emails/email_update.html')
+        
