@@ -220,5 +220,19 @@ class EmailUpdateViewTests(TestCase):
 
     def test_correct_template_used(self):
         login = self.client.login(username='test_user1', password='X$G123**3!')
-        response = self.client.get(reverse('email_update', args=(1,)))
+        response = self.client.get(reverse('email_update', args=(self.email1.id,)))
         self.assertTemplateUsed(response, 'emails/email_update.html')
+        self.assertTrue(response.status_code, 200)
+
+
+
+        
+
+
+
+
+
+
+
+
+
