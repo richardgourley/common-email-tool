@@ -198,7 +198,7 @@ class EmailUpdateViewTests(TestCase):
         login = self.client.login(username='test_user2', password='Yui*!v4G6!')
         email1 = Email.objects.get(id=1)
         response = self.client.get(reverse('email_update', args=(email1.id,)))
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 302)
 
     def test_user1_can_view_update_email(self):
         login = self.client.login(username='test_user1', password='X$G123**3!')
@@ -227,4 +227,3 @@ class EmailUpdateViewTests(TestCase):
         login = self.client.login(username='test_user1', password='X$G123**3!')
         response = self.client.get(reverse('email_update', args=(1,)))
         self.assertTemplateUsed(response, 'emails/email_update.html')
-        
