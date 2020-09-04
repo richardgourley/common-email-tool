@@ -115,3 +115,56 @@ class EmailListViewTests(TestCase):
         login = self.client.login(username='test_user1', password='X$G123**3!')
         response = self.client.get(reverse('all_emails'))
         self.assertTrue("Welcome" in str(response.content))
+
+class EmailCreateViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        category1 = Category.objects.create(name="Company Introductions")
+        email1 = Email.objects.create(name_eng="Welcome", name_esp="Bienvenido", category=category1)
+        EmailTranslation.objects.create(
+            email=email1,
+            language='ES',
+            content = 'Bienvenido'
+        )
+
+        test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        test_user2 = User.objects.create_user(username='test_user2', password='Yui*!v4G6!')
+
+        perm_can_add_email = Permission.objects.get(name="Can add email")
+        test_user1.user_permissions.add(perm_can_add_email)
+        test_user1.save()
+
+    def test_user2_cant_view_create_email(self):
+        login = self.client.login(username='test_user2', password='Yui*!v4G6!')
+        response = self.client.get(reverse('email_create'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_user1_can_view_create_email(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('email_create'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_email_form_and_formset_in_context(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('email_create'))
+        self.assertTrue(email_form in response.context)
+        self.assertTrue(formset in response.context)
+
+    '''
+    Formset refers to emailtranslations related to this email
+    '''
+    def test_html_email_form_formset(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('email_create'))
+        self.assertTrue('Choose a category!' in str(response.content))
+        self.assertTrue('Specify a language' in str(response.content))
+
+    def test_formset_length(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('email_create'))
+        self.assertEqual(len(formset), 3)
+
+    def test_correct_template(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('email_create'))
+        self.assertTemplateUsed(response, 'emails/email_create.html')
