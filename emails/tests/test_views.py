@@ -66,14 +66,14 @@ class EmailDetailViewTests(TestCase):
         response = self.client.get(reverse('email_detail', args=(self.email1.id,)))
         self.assertEqual(response.status_code, 403)
 
-    def test_user2_tests(self):
+    def test_user2_can_view_emails(self):
         login = self.client.login(username='test_user2', password='iO**pgf!!2')
         response = self.client.get(reverse('email_detail', args=(self.email1.id,)))
 
         self.assertEqual(response.status_code, 200)
         self.assertFalse('Edit this email/ Add a translation' in str(response.content))
 
-    def test_user3_tests(self):
+    def test_user3_can_see_edit_email(self):
         login = self.client.login(username='test_user3', password='2y!tyY!!*i')
         response = self.client.get(reverse('email_detail', args=(self.email1.id,)))
 
@@ -251,6 +251,148 @@ class CategoryCreateViewTests(TestCase):
         response = self.client.get(reverse('category_create'))
         self.assertTrue("Create a new email template category", str(response.content))
         self.assertTrue("Name:", str(response.content))
+
+    def test_correct_template_used(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_create'))
+        self.assertTemplateUsed(response, 'emails/category_create.html')
+        self.assertTrue(response.status_code, 200)
+
+class CategoryUpdateViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category1 = Category.objects.create(name="Company Introductions")
+
+        cls.test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        cls.test_user2 = User.objects.create_user(username='test_user2', password='Yui*!v4G6!')
+        cls.test_user1.save()
+        cls.test_user2.save()
+
+        perm_can_change_category = Permission.objects.get(name="Can change category")
+        cls.test_user1.user_permissions.add(perm_can_change_category)
+        cls.test_user1.save()
+
+    def test_user_2_cant_access_change_category(self):
+        login = self.client.login(username='test_user2', password='Yui*!v4G6!')
+        response = self.client.get(reverse('category_update', args=(self.category1.id,)))
+        self.assertTrue(response.status_code, 403)
+
+    def test_user_1_can_access_change_category(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_update', args=(self.category1.id,)))
+        self.assertTrue(response.status_code, 200)
+
+    def test_update_category_page_html(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_update', args=(self.category1.id,)))
+        self.assertTrue("Update this email category", str(response.content))
+        self.assertTrue("Name:", str(response.content))
+        # Test category name appears in update name field
+        self.assertTrue("Company Introductions:", str(response.content))
+
+    def test_correct_template_used(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_update', args=(self.category1.id,)))
+        self.assertTemplateUsed(response, 'emails/category_update.html')
+        self.assertTrue(response.status_code, 200)
+
+class CategoryListViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.category1 = Category.objects.create(name="Company Introductions")
+        cls.category2 = Category.objects.create(name="Company Information")
+
+        cls.test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        cls.test_user1.save()
+
+    def test_not_logged_in_redirects(self):
+        response = self.client.get(reverse('all_categories'))
+        self.assertRedirects(response, '/accounts/login/?next=/emails/allcategories/')
+
+    def test_logged_in_accesses_page(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('all_categories'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_category_names_appear_html(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('all_categories'))
+        self.assertTrue("Company Introductions" in str(response.content))
+        self.assertTrue("Company Information" in str(response.content))
+
+    def test_correct_template_used(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('all_categories'))
+        self.assertTemplateUsed(response, 'category_list.html')
+        self.assertTrue(response.status_code, 200)
+
+class CategoryDetailViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        cls.test_user2 = User.objects.create_user(username='test_user2', password='Yui*!v4G6!')
+        cls.test_user1.save()
+        cls.test_user2.save()
+
+        perm_can_change_category = Permission.objects.get(name="Can change category")
+        cls.test_user1.user_permissions.add(perm_can_change_category)
+        cls.test_user1.save()
+
+        cls.category1 = Category.objects.create(name="Company Introductions")
+
+        cls.email1 = Email.objects.create(name_eng="Welcome", name_esp="Bienvenido", category=cls.category1)
+        cls.email2 = Email.objects.create(name_eng="Hello", name_esp="Hola", category=cls.category1)
+        cls.email3 = Email.objects.create(name_eng="Goodbye", name_esp="Adios", category=cls.category1)
+        
+
+    def test_user_1_can_see_update_category(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
+        self.assertTrue("Update this category" in str(response.content))
+
+    def test_user_2_cant_see_update_category(self):
+        login = self.client.login(username='test_user2', password='Yui*!v4G6!')
+        response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
+        self.assertFalse("Update this category" in str(response.content))
+
+    def test_emails_appear_in_page(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
+        self.assertTrue("Welcome" in str(response.content))
+        self.assertTrue("Hello" in str(response.content))
+        self.assertTrue("Goodbye" in str(response.content))
+
+    def test_category_name_appears_in_page(self):
+        login = self.client.login(username='test_user2', password='Yui*!v4G6!')
+        response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
+        self.assertTrue("CATEGORY NAME: Goodbye" in str(response.content))
+
+    def test_correct_template_used(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
+        self.assertTemplateUsed(response, 'category_detail.html')
+        self.assertTrue(response.status_code, 200)
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
         
