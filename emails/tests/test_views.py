@@ -224,6 +224,33 @@ class EmailUpdateViewTests(TestCase):
         self.assertTemplateUsed(response, 'emails/email_update.html')
         self.assertTrue(response.status_code, 200)
 
+class CategoryCreateViewTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        cls.test_user1 = User.objects.create_user(username='test_user1', password='X$G123**3!')
+        cls.test_user2 = User.objects.create_user(username='test_user2', password='Yui*!v4G6!')
+        cls.test_user1.save()
+        cls.test_user2.save()
+
+        perm_can_add_category = Permission.objects.get(name="Can add category")
+        cls.test_user1.user_permissions.add(perm_can_add_category)
+        cls.test_user1.save()
+
+    def test_user_2_cant_access_add_category(self):
+        login = self.client.login(username='test_user2', password='Yui*!v4G6!')
+        response = self.client.get(reverse('category_create'))
+        self.assertEqual(response.status_code, 403)
+
+    def test_user_1_can_access_add_category(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_create'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_category_page_html(self):
+        login = self.client.login(username='test_user1', password='X$G123**3!')
+        response = self.client.get(reverse('category_create'))
+        self.assertTrue("Create a new email template category", str(response.content))
+        self.assertTrue("Name:", str(response.content))
 
 
         
