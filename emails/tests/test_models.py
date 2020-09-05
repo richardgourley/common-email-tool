@@ -7,7 +7,7 @@ CATEGORY MODEL TESTS
 '''
 class CategoryModelTests(TestCase):
     # Any objects not going to be modified
-    @class_method
+    @classmethod
     def setUpTestData(cls):
         Category.objects.create(name="Company Introductions")
     
