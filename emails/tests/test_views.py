@@ -374,34 +374,3 @@ class CategoryDetailViewTests(TestCase):
         self.assertTrue(response.status_code, 200)
 
 
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-
-
-
-
-
-
-
-
-
