@@ -255,7 +255,7 @@ class CategoryCreateViewTests(TestCase):
     def test_correct_template_used(self):
         login = self.client.login(username='test_user1', password='X$G123**3!')
         response = self.client.get(reverse('category_create'))
-        self.assertTemplateUsed(response, 'emails/category_create.html')
+        self.assertTemplateUsed(response, 'emails/category_form.html')
         self.assertTrue(response.status_code, 200)
 
 class CategoryUpdateViewTests(TestCase):
@@ -335,8 +335,14 @@ class CategoryDetailViewTests(TestCase):
         cls.test_user2.save()
 
         perm_can_change_category = Permission.objects.get(name="Can change category")
+        perm_can_view_category = Permission.objects.get(name="Can view category")
+        
         cls.test_user1.user_permissions.add(perm_can_change_category)
+        cls.test_user1.user_permissions.add(perm_can_view_category)
+        cls.test_user2.user_permissions.add(perm_can_view_category)
+        
         cls.test_user1.save()
+        cls.test_user2.save()
 
         cls.category1 = Category.objects.create(name="Company Introductions")
 
@@ -365,12 +371,43 @@ class CategoryDetailViewTests(TestCase):
     def test_category_name_appears_in_page(self):
         login = self.client.login(username='test_user2', password='Yui*!v4G6!')
         response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
-        self.assertTrue("CATEGORY NAME: Goodbye" in str(response.content))
+        self.assertTrue("CATEGORY NAME: Company Introductions" in str(response.content))
 
     def test_correct_template_used(self):
         login = self.client.login(username='test_user1', password='X$G123**3!')
         response = self.client.get(reverse('category_detail', args=(self.category1.id,)))
         self.assertTemplateUsed(response, 'category_detail.html')
         self.assertTrue(response.status_code, 200)
+
+
+
+
+
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
 
 
