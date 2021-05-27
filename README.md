@@ -59,10 +59,10 @@ See it in action!
 ## Screenshots
 
 **LogIn Page**
-![loginpage](https://github.com/richardgourley/multi-language-email-template-manager/blob/main/sreenshots/login.png)
+![login](https://github.com/richardgourley/multi-language-email-template-manager/blob/main/sreenshots/login.png)
 
 **Dashboard Page**
-![dashboardpage](https://github.com/richardgourley/multi-language-email-template-manager/blob/main/sreenshots/dashboard.png)
+![dashboard](https://github.com/richardgourley/multi-language-email-template-manager/blob/main/sreenshots/dashboard.png)
 
 ### A FEW THINGS STILL TO DO
 - [ ] Change id to slug for 'Email' in emails.models.py
