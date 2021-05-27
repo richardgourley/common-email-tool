@@ -41,7 +41,7 @@ Add code from 'emails' app directory, 'templates' directory, settings.py from 'e
 Install python-decouple
 ```pip install python-decouple```
 
-See ### [PythonDecouple](https://pypi.org/project/python-decouple/) for setting up a '.env' file for separating secret app information.
+See [PythonDecouple](https://pypi.org/project/python-decouple/) for setting up a '.env' file for separating secret app information.
 See 'settings.py' to see how 'from decouple import config' is used.
 
 After all code is setup, run...
