@@ -64,5 +64,9 @@ See it in action!
 **Dashboard Page**
 ![dashboardpage](https://github.com/richardgourley/multi-language-email-template-manager/blob/main/sreenshots/dashboard.png)
 
+### A FEW THINGS STILL TO DO
+- [ ] Change id to slug for 'Email' in emails.models.py
+- [ ] Add more languages to the 'EmailTranslation' object in emails.models.py (Maybe using django-countries or something similar.)
+
 
 
