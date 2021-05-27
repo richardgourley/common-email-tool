@@ -10,7 +10,7 @@ A team member can add a translation in their language to any existing email.
 They can create new email templates for other team members to add translations to.
 They can also assign categories to emails.
 
-So, if the French speaker, or the Italian speaker, or the Portuguese member of the team is away from the office, the other team members can easily access a template of a common email in that language and keep communication flowing with customers!
+**So, if the French speaker, or the Italian speaker, or the Portuguese member of the team is away from the office, the other team members can easily access a template of a common email in that language and keep communication flowing with customers!**
 
 The app admin has different privelige levels such as the ability to add email translations or simply to be able to read email translations.
 
@@ -18,7 +18,7 @@ The app admin has different privelige levels such as the ability to add email tr
 
 ## Interesting, useful but lesser used Django tools included...
 - **from django.forms.models import inlineformset_factory**
-  - The aim was to avoid limiting the number of email translations allowed per email.  Using inlineformset_factory allows the app users to create translations in an unlimited number of languages.
+  - The aim was to avoid limiting the number of email translations allowed per email.  Using inlineformset_factory allows the app users to create unlimited translations.
 
 ## Getting Started
 Setting up Django:
