@@ -1,24 +1,25 @@
 # Multi Language Email Template Manager
 
 ## What's this Django project all about?
-Imagine working in a company where you have a multi-lingual team that sends numerous emails to clients every day in different languages.
-Now, imagine if a lot of those emails were very similar in content, even if in different languages.
+A Django app that allows multi-lingual teams to login, create common email templates and add translations.
 
-The idea for this app is that team members can login and contribute to a database of translations of commonly sent emails.
+## Features
+- A team member can add a commonly used email template such as welcoming a new customer, a pricing template etc.
+- Any other team member who is fluent in another language can go in and add a translation to any commonly used email templates.
+- Team members can then access email templates in numerous languages.
+- At the moment the base language is in English and the translations can be in French, Spanish, Italian, German or Dutch. Looking to expand this.
+- The app admin can assign priveliges - to only read email templates or to be able to add translations.
+- Only logged in users can access the app.
+- All emails and translations are created on the front end. Only the site admins can access '/admin'
 
-A team member can add a translation in their language to any existing email.
-They can create new email templates for other team members to add translations to.
-They can also assign categories to emails.
+## Tools
+- Full test suite
+- Django user authentication system implemented.
+- **from django.forms.models import inlineformset_factory** implemented to allow the user to add extra email translations.
 
-**So, if the French speaker, or the Italian speaker, or the Portuguese member of the team is away from the office, the other team members can easily access a template of a common email in that language and keep communication flowing with customers!**
-
-The app admin has different privelige levels such as the ability to add email translations or simply to be able to read email translations.
-
-***The main login for staff members and all email translation CRUD operations are performed on the front end.  Only the assigned admins can use /admin to set priveliges.***
-
-## Interesting, useful but lesser used Django tools included...
-- **from django.forms.models import inlineformset_factory**
-  - The aim was to avoid limiting the number of email translations allowed per email.  Using inlineformset_factory allows the app users to create unlimited translations.
+### To Do
+- [ ] Change id to slug for 'Email' in emails.models.py
+- [ ] Add more languages to the 'EmailTranslation' object in emails.models.py (Maybe using django-countries or something similar.)
 
 ## Getting Started
 Setting up Django:
@@ -64,9 +65,7 @@ See it in action!
 **Dashboard Page**
 ![dashboard](https://github.com/richardgourley/multi-language-email-template-manager/blob/master/screenshots/dashboard.png)
 
-### A FEW THINGS STILL TO DO
-- [ ] Change id to slug for 'Email' in emails.models.py
-- [ ] Add more languages to the 'EmailTranslation' object in emails.models.py (Maybe using django-countries or something similar.)
+
 
 
 
