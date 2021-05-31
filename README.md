@@ -6,11 +6,10 @@ A Django app that allows multi-lingual teams to login, create common email templ
 ## Features
 - A team member can add a commonly used email template such as welcoming a new customer, a pricing template etc.
 - Any other team member who is fluent in another language can go in and add a translation to any commonly used email templates.
-- Team members can then access email templates in numerous languages.
 - At the moment the base language is in English and the translations can be in French, Spanish, Italian, German or Dutch. Looking to expand this.
-- The app admin can assign priveliges - to only read email templates or to be able to add translations.
 - Only logged in users can access the app.
 - All emails and translations are created on the front end. Only the site admins can access '/admin'
+- The app admin can assign priveliges - to only read email templates or to be able to add translations.
 
 ## Tools
 - Full test suite
