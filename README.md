@@ -1,6 +1,6 @@
 # Multi Language Email Template Manager
 
-## What's this Django project all about?
+## Intro
 A Django app that allows multi-lingual teams to login, create common email templates and add translations.
 
 ## Features
