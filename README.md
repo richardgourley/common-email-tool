@@ -22,15 +22,15 @@ A user based Django web application for multi-lingual teams that allows assigned
 
 ## Getting Started
 Setting up Django:
-```virtualenv multi-language-email-template-manager -p python3```
+```virtualenv commonemailtool -p python3```
 
-```cd multi-language-email-template-manager```
+```cd commonemailtool```
 
 ```source bin/activate```
 
 ```pip install Django```
 
-```django-admin startproject emailtemplatemanager```
+```django-admin startproject commonemailtool```
 
 ```python manage.py migrate```
 
