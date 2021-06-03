@@ -1,7 +1,7 @@
-# Multi Language Email Template Manager
+# Common email tool
 
 ## Intro
-A Django app that allows multi-lingual teams to login, create common email templates and add translations.
+A user based Django web application for multi-lingual teams that allows assigned users to login, create common email templates and add translations.
 
 ## Features
 - A team member can add a commonly used email template such as welcoming a new customer, a pricing template etc.
@@ -12,7 +12,7 @@ A Django app that allows multi-lingual teams to login, create common email templ
 - The app admin can assign priveliges - to only read email templates or to be able to add translations.
 
 ## Tools
-- Full test suite
+- Full test suite using TestCase
 - Django user authentication system implemented.
 - **from django.forms.models import inlineformset_factory** implemented to allow the user to add extra email translations.
 
@@ -64,6 +64,12 @@ See it in action!
 **Dashboard Page**
 ![dashboard](https://github.com/richardgourley/multi-language-email-template-manager/blob/master/screenshots/dashboard.png)
 
+## Related
+Wagtail beginners setup guide:
+https://github.com/richardgourley/django-wagtail-stepbystep
+
+Deploying Wagtail to PythonAnywhere:
+https://github.com/texperience/wagtail-pythonanywhere-quickstart
 
 
 
