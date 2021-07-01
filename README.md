@@ -1,24 +1,56 @@
-# Common email tool
+# Email Template Translations Dashboard
 
 ## Intro
-A user based Django web application for multi-lingual teams that allows assigned users to login, create common email templates and add translations.
+A bespoke Django dashboard application. It doesn't use the /admin page except for the superuser to add users and assign permissions.
+
+Team members can add email templates in a base language and other team members can add translations.
+
+It was written for a company that has:
+1. Many common emails that they send to customers.
+2. Team members that speak different languages.
+
+Team members can be given different permission levels.
+
+Team members can login and create email templates in a base language.  Other team members can add a translation of the email into another language.
+
+The end result is that the company has an accessible database of common emails that are translated into different languges
 
 ## Features
-- A team member can add a commonly used email template such as welcoming a new customer, a pricing template etc.
-- Any other team member who is fluent in another language can go in and add a translation to any commonly used email templates.
-- At the moment the base language is in English and the translations can be in French, Spanish, Italian, German or Dutch. Looking to expand this.
+
+- The app is pluggable -> everything is under one url. Visit '127.0.0.1:8000/emails/' instead of '127.0.0.1:8000' when you run the server.
+
+- This version was written for a company that has two main languages, hence the titles of the emails are both in English and Spanish. This can be adapted.
+
+- Team members can be given different permission levels.
+
+- Team members can login and create email templates in a base language.  Other team members can add a translation of the email into another language.
+
+- Team members can create categories and assign the email templates into different categories.
+
+- At the moment the base language is in English and the translations can be in French, Spanish, Italian, German or Dutch. This can be adapted.
+
 - Only logged in users can access the app.
-- All emails and translations are created on the front end. Only the site admins can access '/admin'
-- The app admin can assign priveliges - to only read email templates or to be able to add translations.
+
+- Only the site admins can access '/admin' to manage users.
+
+- The app admin can assign priveliges - 
+  - read emails
+  - add translations
 
 ## Tools
-- Full test suite using TestCase
-- Django user authentication system implemented.
-- **from django.forms.models import inlineformset_factory** implemented to allow the user to add extra email translations.
 
-### To Do
-- [ ] Change id to slug for 'Email' in emails.models.py
-- [ ] Add more languages to the 'EmailTranslation' object in emails.models.py (Maybe using django-countries or something similar.)
+- Test suite written with TestCase
+
+- inlineformset_factory
+  - used to allow multiple translations to be added to an email template.
+
+- Django user authentication system implemented.
+
+- Permission levels applied to function based views and class based views.
+  - login_required
+  - permission_required
+  - LoginRequiredMixin
+  - PermissionRequiredMixin
 
 ## Getting Started
 Setting up Django:
@@ -54,22 +86,24 @@ After all code is setup, run...
 
 See it in action!
 ```python manage.py runserver```
+Go to:
+``` 127.0.0.1:8000/emails/ ```
 
+### To Do
+- [ ] Change id to slug for 'Email' in emails.models.py
+- [ ] Add more languages to the 'EmailTranslation' object in emails.models.py (Maybe using django-countries or something similar.)
 
 ## Screenshots
 
 **LogIn Page**
 ![login](https://github.com/richardgourley/multi-language-email-template-manager/blob/master/screenshots/login.png)
 
+**Dashboard Home Page**
+![dashboard_home](https://github.com/richardgourley/multi-language-email-template-manager/blob/master/screenshots/dashboardhome.png)
+
 **Dashboard Page**
 ![dashboard](https://github.com/richardgourley/multi-language-email-template-manager/blob/master/screenshots/dashboard.png)
 
-## Related
-Wagtail beginners setup guide:
-https://github.com/richardgourley/django-wagtail-stepbystep
-
-Deploying Wagtail to PythonAnywhere:
-https://github.com/texperience/wagtail-pythonanywhere-quickstart
 
 
 
